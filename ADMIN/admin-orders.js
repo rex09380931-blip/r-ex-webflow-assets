@@ -1,3 +1,5 @@
+
+
 /* ==========================================
    R-EX ADMIN ORDERS
 ========================================== */
@@ -451,6 +453,35 @@ function initAdminOrders() {
                 ${escapeHtml(order.delivery_method || "Standard")}
               </p>
 
+
+              <p class="admin-order-shipping-price">
+                <strong>Shipping:</strong>
+
+                <span class="rex-shipping-old-price">
+                  ${formatPrice(
+                    order.shipping_original ?? 20
+                  )}
+                </span>
+
+                <span class="rex-shipping-free-price">
+                  FREE
+                </span>
+              </p>
+
+              <p>
+                <strong>Shipping discount:</strong>
+                -${formatPrice(
+                  order.shipping_discount ?? 20
+                )}
+              </p>
+
+              <p>
+                <strong>Charged shipping:</strong>
+                ${formatPrice(
+                  order.shipping_amount ?? 0
+                )}
+              </p>
+
               ${addressHtml}
 
               ${
@@ -695,6 +726,9 @@ function initAdminOrders() {
           order_number,
           user_id,
           total_amount,
+          shipping_original,
+          shipping_discount,
+          shipping_amount,
           currency,
           payment_status,
           shipping_status,
@@ -803,3 +837,5 @@ function initAdminOrders() {
     }
   );
 }
+
+
