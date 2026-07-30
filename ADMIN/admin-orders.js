@@ -651,6 +651,43 @@ function initAdminOrders() {
             "success"
           );
 
+           let notificationType = null;
+
+if (nextShippingStatus === "shipped") {
+  notificationType = "order_shipped";
+} else if (nextShippingStatus === "delivered") {
+  notificationType = "order_delivered";
+} else if (nextShippingStatus === "cancelled") {
+  notificationType = "order_cancelled";
+}
+
+if (notificationType) {
+  try {
+    const { error: emailError } =
+      await rexSupabase.functions.invoke(
+        "order-status-email",
+        {
+          body: {
+            orderId: order.id,
+            notificationType
+          }
+        }
+      );
+
+    if (emailError) {
+      console.error(
+        "[R-EX] Status email failed:",
+        emailError
+      );
+    }
+  } catch (error) {
+    console.error(
+      "[R-EX] Status email failed:",
+      error
+    );
+  }
+}
+
           window.dispatchEvent(
             new CustomEvent(
               "rex:admin-orders-refresh"
