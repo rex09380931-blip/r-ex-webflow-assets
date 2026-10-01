@@ -348,9 +348,10 @@ function initAdminOrders() {
                 </strong>
 
                 <small>
-                  SIZE: ${escapeHtml(item.size || "—")}
-                  · QTY: ${quantity}
-                  · SKU: ${escapeHtml(item.sku || "—")}
+                 SIZE: ${escapeHtml(item.size || "—")}
+                 · COLOR: ${escapeHtml(item.color_name || "—")}
+                 · QTY: ${quantity}
+                 · SKU: ${escapeHtml(item.sku || "—")}
                 </small>
               </div>
 
@@ -785,6 +786,7 @@ if (notificationType) {
             sku,
             product_name,
             size,
+            color_name,
             quantity,
             price
           )
