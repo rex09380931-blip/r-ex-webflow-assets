@@ -120,7 +120,7 @@ function initAdminOrders() {
   }
 
   function formatPrice(value) {
-    return `AED ${Number(value || 0).toFixed(0)}`;
+    return `AED ${Number(value || 0).toFixed(2)}`;
   }
 
   function formatDate(value) {
