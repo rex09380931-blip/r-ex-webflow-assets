@@ -426,7 +426,7 @@ function initAdminOrders() {
           </section>
 
           <section class="admin-order-panel">
-            <h3>CUSTOMER & SHIPPING</h3>
+            <h3>CUSTOMER & </h3>
 
             <div class="admin-order-info-list">
               <p>
@@ -453,6 +453,23 @@ function initAdminOrders() {
                 <strong>Delivery:</strong>
                 ${escapeHtml(order.delivery_method || "Standard")}
               </p>
+
+              ${
+  order.discount_code
+    ? `
+      <p>
+        <strong>Discount code:</strong>
+        ${escapeHtml(order.discount_code)}
+        <span class="rex-promo-applied">APPLIED</span>
+      </p>
+
+      <p>
+        <strong>Promo discount:</strong>
+        -${formatPrice(order.discount_amount)}
+      </p>
+    `
+    : ""
+}
 
 
               <p class="admin-order-shipping-price">
@@ -764,6 +781,9 @@ if (notificationType) {
           order_number,
           user_id,
           total_amount,
+          subtotal_amount,
+          discount_code,
+          discount_amount,
           shipping_original,
           shipping_discount,
           shipping_amount,
