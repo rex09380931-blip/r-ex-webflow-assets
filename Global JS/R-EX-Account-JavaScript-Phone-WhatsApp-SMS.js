@@ -650,7 +650,7 @@ async function loadAccountAvatar(user) {
         emailInput.name = "phone";
         emailInput.autocomplete = "tel";
         emailInput.placeholder = "+971 5X XXX XXXX";
-        emailInputLabel.textContent = "UAE Mobile Number (+971)";
+        emailInputLabel.textContent = "Enter Phone Number";
         emailInput.required = true;
         setMode(mode);
         return;
