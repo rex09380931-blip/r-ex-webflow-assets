@@ -1,4 +1,3 @@
-<script>
 /* ==========================================
    R-EX ACCOUNT MODAL
 ========================================== */
@@ -1165,4 +1164,3 @@ window.addEventListener(
   checkSession();
 }
 
-</script>
