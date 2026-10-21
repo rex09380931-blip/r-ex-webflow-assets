@@ -311,6 +311,13 @@ async function loadAccountAvatar(user) {
         ? (isSignup ? "Create your account with your UAE mobile number." : "Sign in with your UAE mobile number.")
         : (isSignup ? "Create your R-EX account." : "By continuing, you agree to receive account emails.")
     );
+
+     if (isPhone) {
+  linksContainer.style.setProperty("display", "none", "important");
+} else {
+  linksContainer.style.removeProperty("display");
+}
+     
   }
 
 
