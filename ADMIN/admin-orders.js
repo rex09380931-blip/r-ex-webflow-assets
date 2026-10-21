@@ -120,7 +120,7 @@ function initAdminOrders() {
   }
 
   function formatPrice(value) {
-    return `AED ${Number(value || 0).toFixed(0)}`;
+    return `AED ${Number(value || 0).toFixed(2)}`;
   }
 
   function formatDate(value) {
@@ -348,9 +348,10 @@ function initAdminOrders() {
                 </strong>
 
                 <small>
-                  SIZE: ${escapeHtml(item.size || "—")}
-                  · QTY: ${quantity}
-                  · SKU: ${escapeHtml(item.sku || "—")}
+                 SIZE: ${escapeHtml(item.size || "—")}
+                 · COLOR: ${escapeHtml(item.color_name || "—")}
+                 · QTY: ${quantity}
+                 · SKU: ${escapeHtml(item.sku || "—")}
                 </small>
               </div>
 
@@ -425,7 +426,7 @@ function initAdminOrders() {
           </section>
 
           <section class="admin-order-panel">
-            <h3>CUSTOMER & SHIPPING</h3>
+            <h3>CUSTOMER & </h3>
 
             <div class="admin-order-info-list">
               <p>
@@ -452,6 +453,23 @@ function initAdminOrders() {
                 <strong>Delivery:</strong>
                 ${escapeHtml(order.delivery_method || "Standard")}
               </p>
+
+              ${
+  order.discount_code
+    ? `
+      <p>
+        <strong>Discount code:</strong>
+        ${escapeHtml(order.discount_code)}
+        <span class="rex-promo-applied">APPLIED</span>
+      </p>
+
+      <p>
+        <strong>Promo discount:</strong>
+        -${formatPrice(order.discount_amount)}
+      </p>
+    `
+    : ""
+}
 
 
               <p class="admin-order-shipping-price">
@@ -651,6 +669,43 @@ function initAdminOrders() {
             "success"
           );
 
+           let notificationType = null;
+
+if (nextShippingStatus === "shipped") {
+  notificationType = "order_shipped";
+} else if (nextShippingStatus === "delivered") {
+  notificationType = "order_delivered";
+} else if (nextShippingStatus === "cancelled") {
+  notificationType = "order_cancelled";
+}
+
+if (notificationType) {
+  try {
+    const { error: emailError } =
+      await rexSupabase.functions.invoke(
+        "order-status-email",
+        {
+          body: {
+            orderId: order.id,
+            notificationType
+          }
+        }
+      );
+
+    if (emailError) {
+      console.error(
+        "[R-EX] Status email failed:",
+        emailError
+      );
+    }
+  } catch (error) {
+    console.error(
+      "[R-EX] Status email failed:",
+      error
+    );
+  }
+}
+
           window.dispatchEvent(
             new CustomEvent(
               "rex:admin-orders-refresh"
@@ -726,6 +781,9 @@ function initAdminOrders() {
           order_number,
           user_id,
           total_amount,
+          subtotal_amount,
+          discount_code,
+          discount_amount,
           shipping_original,
           shipping_discount,
           shipping_amount,
@@ -748,6 +806,7 @@ function initAdminOrders() {
             sku,
             product_name,
             size,
+            color_name,
             quantity,
             price
           )
