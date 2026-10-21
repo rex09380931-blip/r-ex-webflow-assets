@@ -283,6 +283,8 @@ async function loadAccountAvatar(user) {
     const isPhone = authType === "phone";
     const isSignup = mode === "signup";
 
+     toggleAuth.style.display = isPhone ? "none" : "";
+
     confirmPasswordField.style.display =
       !isPhone && isSignup ? "flex" : "none";
     confirmPasswordInput.style.setProperty(
@@ -309,6 +311,13 @@ async function loadAccountAvatar(user) {
         ? (isSignup ? "Create your account with your UAE mobile number." : "Sign in with your UAE mobile number.")
         : (isSignup ? "Create your R-EX account." : "By continuing, you agree to receive account emails.")
     );
+
+     if (isPhone) {
+  linksContainer.style.setProperty("display", "none", "important");
+} else {
+  linksContainer.style.removeProperty("display");
+}
+     
   }
 
 
@@ -650,7 +659,7 @@ async function loadAccountAvatar(user) {
         emailInput.name = "phone";
         emailInput.autocomplete = "tel";
         emailInput.placeholder = "+971 5X XXX XXXX";
-        emailInputLabel.textContent = "UAE Mobile Number (+971)";
+        emailInputLabel.textContent = "Enter Phone Number";
         emailInput.required = true;
         setMode(mode);
         return;
