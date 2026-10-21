@@ -283,6 +283,8 @@ async function loadAccountAvatar(user) {
     const isPhone = authType === "phone";
     const isSignup = mode === "signup";
 
+     toggleAuth.style.display = isPhone ? "none" : "";
+
     confirmPasswordField.style.display =
       !isPhone && isSignup ? "flex" : "none";
     confirmPasswordInput.style.setProperty(
